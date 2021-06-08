@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Enigma
@@ -13,9 +7,8 @@ namespace Enigma
 	public class MainForm : Form
 	{
 		private Button Rotor1Down;
-		private Label lblRotorD;
-		private Label lblRotorS;
-		private Button EncryptDecryptButton;
+		private Label lblRotorR;
+		private Label lblRotorL;
 		private Button SettingsButton;
 		private GroupBox RingRotorsInfo;
 		private Button Rotor2Down;
@@ -30,19 +23,13 @@ namespace Enigma
 		private Label Rotor2Info;
 		private Button Rotor3Down;
     private Button PlugboardSettings;
-
+    private Button GoToOffsetSettings;
     private Rotor RightRotor, MiddleRotor, LeftRotor, reflector;
+    private Dictionary<int, char[]> SteckerWiring = new();
 
 		public MainForm()
 		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			InitializeComponent();
-
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
+      InitializeComponent();
 		}
 
     private void InitializeComponent()
@@ -60,18 +47,18 @@ namespace Enigma
       this.Rotor3Info = new System.Windows.Forms.Label();
       this.Rotor2Down = new System.Windows.Forms.Button();
       this.RingRotorsInfo = new System.Windows.Forms.GroupBox();
-      this.lblRotorS = new System.Windows.Forms.Label();
-      this.lblRotorD = new System.Windows.Forms.Label();
+      this.lblRotorL = new System.Windows.Forms.Label();
+      this.lblRotorR = new System.Windows.Forms.Label();
       this.Rotor1Down = new System.Windows.Forms.Button();
       this.SettingsButton = new System.Windows.Forms.Button();
-      this.EncryptDecryptButton = new System.Windows.Forms.Button();
       this.PlugboardSettings = new System.Windows.Forms.Button();
+      this.GoToOffsetSettings = new System.Windows.Forms.Button();
       this.RingRotorsInfo.SuspendLayout();
       this.SuspendLayout();
       // 
       // Rotor3Down
       // 
-      this.Rotor3Down.Image = ((System.Drawing.Image)(resources.GetObject("Rotor3Down.Image")));
+      this.Rotor3Down.Image = global::Enigma.Properties.Resources.Down;
       this.Rotor3Down.Location = new System.Drawing.Point(19, 187);
       this.Rotor3Down.Name = "Rotor3Down";
       this.Rotor3Down.Size = new System.Drawing.Size(39, 79);
@@ -91,7 +78,7 @@ namespace Enigma
       // 
       // Rotor3Up
       // 
-      this.Rotor3Up.Image = ((System.Drawing.Image)(resources.GetObject("Rotor3Up.Image")));
+      this.Rotor3Up.Image = global::Enigma.Properties.Resources.Up;
       this.Rotor3Up.Location = new System.Drawing.Point(19, 49);
       this.Rotor3Up.Name = "Rotor3Up";
       this.Rotor3Up.Size = new System.Drawing.Size(39, 79);
@@ -110,7 +97,7 @@ namespace Enigma
       // 
       // Rotor2Up
       // 
-      this.Rotor2Up.Image = ((System.Drawing.Image)(resources.GetObject("Rotor2Up.Image")));
+      this.Rotor2Up.Image = global::Enigma.Properties.Resources.Up;
       this.Rotor2Up.Location = new System.Drawing.Point(67, 49);
       this.Rotor2Up.Name = "Rotor2Up";
       this.Rotor2Up.Size = new System.Drawing.Size(39, 79);
@@ -122,12 +109,13 @@ namespace Enigma
       this.txtFinal.Location = new System.Drawing.Point(19, 187);
       this.txtFinal.Multiline = true;
       this.txtFinal.Name = "txtFinal";
+      this.txtFinal.PlaceholderText = "Полученный текст";
       this.txtFinal.Size = new System.Drawing.Size(519, 108);
       this.txtFinal.TabIndex = 10;
       // 
       // Rotor1Up
       // 
-      this.Rotor1Up.Image = ((System.Drawing.Image)(resources.GetObject("Rotor1Up.Image")));
+      this.Rotor1Up.Image = global::Enigma.Properties.Resources.Up;
       this.Rotor1Up.Location = new System.Drawing.Point(115, 49);
       this.Rotor1Up.Name = "Rotor1Up";
       this.Rotor1Up.Size = new System.Drawing.Size(39, 79);
@@ -136,13 +124,14 @@ namespace Enigma
       // 
       // txtInit
       // 
+      this.txtInit.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
       this.txtInit.Location = new System.Drawing.Point(19, 20);
       this.txtInit.Multiline = true;
       this.txtInit.Name = "txtInit";
+      this.txtInit.PlaceholderText = "Введите текст на латинице";
       this.txtInit.Size = new System.Drawing.Size(519, 108);
       this.txtInit.TabIndex = 9;
       this.txtInit.TextChanged += new System.EventHandler(this.TxtInitTextChanged);
-      this.txtInit.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TxtInitKeyUp);
       // 
       // Rotor1Info
       // 
@@ -168,7 +157,7 @@ namespace Enigma
       // 
       // Rotor2Down
       // 
-      this.Rotor2Down.Image = ((System.Drawing.Image)(resources.GetObject("Rotor2Down.Image")));
+      this.Rotor2Down.Image = global::Enigma.Properties.Resources.Down;
       this.Rotor2Down.Location = new System.Drawing.Point(67, 187);
       this.Rotor2Down.Name = "Rotor2Down";
       this.Rotor2Down.Size = new System.Drawing.Size(39, 79);
@@ -177,9 +166,9 @@ namespace Enigma
       // 
       // RingRotorsInfo
       // 
-      this.RingRotorsInfo.Controls.Add(this.lblRotorS);
+      this.RingRotorsInfo.Controls.Add(this.lblRotorL);
       this.RingRotorsInfo.Controls.Add(this.lblRotorM);
-      this.RingRotorsInfo.Controls.Add(this.lblRotorD);
+      this.RingRotorsInfo.Controls.Add(this.lblRotorR);
       this.RingRotorsInfo.Controls.Add(this.Rotor1Down);
       this.RingRotorsInfo.Controls.Add(this.Rotor2Down);
       this.RingRotorsInfo.Controls.Add(this.Rotor1Up);
@@ -196,29 +185,29 @@ namespace Enigma
       this.RingRotorsInfo.TabStop = false;
       this.RingRotorsInfo.Text = "Роторы и настройка колец";
       // 
-      // lblRotorS
+      // lblRotorL
       // 
-      this.lblRotorS.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World);
-      this.lblRotorS.Location = new System.Drawing.Point(19, 20);
-      this.lblRotorS.Name = "lblRotorS";
-      this.lblRotorS.Size = new System.Drawing.Size(39, 29);
-      this.lblRotorS.TabIndex = 20;
-      this.lblRotorS.Text = "I";
-      this.lblRotorS.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+      this.lblRotorL.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World);
+      this.lblRotorL.Location = new System.Drawing.Point(19, 20);
+      this.lblRotorL.Name = "lblRotorL";
+      this.lblRotorL.Size = new System.Drawing.Size(39, 29);
+      this.lblRotorL.TabIndex = 20;
+      this.lblRotorL.Text = "I";
+      this.lblRotorL.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       // 
-      // lblRotorD
+      // lblRotorR
       // 
-      this.lblRotorD.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World);
-      this.lblRotorD.Location = new System.Drawing.Point(115, 20);
-      this.lblRotorD.Name = "lblRotorD";
-      this.lblRotorD.Size = new System.Drawing.Size(39, 29);
-      this.lblRotorD.TabIndex = 18;
-      this.lblRotorD.Text = "III";
-      this.lblRotorD.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+      this.lblRotorR.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World);
+      this.lblRotorR.Location = new System.Drawing.Point(115, 20);
+      this.lblRotorR.Name = "lblRotorR";
+      this.lblRotorR.Size = new System.Drawing.Size(39, 29);
+      this.lblRotorR.TabIndex = 18;
+      this.lblRotorR.Text = "III";
+      this.lblRotorR.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       // 
       // Rotor1Down
       // 
-      this.Rotor1Down.Image = ((System.Drawing.Image)(resources.GetObject("Rotor1Down.Image")));
+      this.Rotor1Down.Image = global::Enigma.Properties.Resources.Down;
       this.Rotor1Down.Location = new System.Drawing.Point(115, 187);
       this.Rotor1Down.Name = "Rotor1Down";
       this.Rotor1Down.Size = new System.Drawing.Size(39, 79);
@@ -227,7 +216,7 @@ namespace Enigma
       // 
       // SettingsButton
       // 
-      this.SettingsButton.Image = ((System.Drawing.Image)(resources.GetObject("SettingsButton.Image")));
+      this.SettingsButton.Image = global::Enigma.Properties.Resources.Gearwheel;
       this.SettingsButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.SettingsButton.Location = new System.Drawing.Point(19, 138);
       this.SettingsButton.Name = "SettingsButton";
@@ -237,35 +226,33 @@ namespace Enigma
       this.SettingsButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
       this.SettingsButton.Click += new System.EventHandler(this.BtnSettingsClick);
       // 
-      // EncryptDecryptButton
-      // 
-      this.EncryptDecryptButton.Image = ((System.Drawing.Image)(resources.GetObject("EncryptDecryptButton.Image")));
-      this.EncryptDecryptButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-      this.EncryptDecryptButton.Location = new System.Drawing.Point(310, 138);
-      this.EncryptDecryptButton.Name = "EncryptDecryptButton";
-      this.EncryptDecryptButton.Size = new System.Drawing.Size(228, 39);
-      this.EncryptDecryptButton.TabIndex = 14;
-      this.EncryptDecryptButton.Text = "Зашифровать/дешифровать текст";
-      this.EncryptDecryptButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.EncryptDecryptButton.Click += new System.EventHandler(this.Button1Click);
-      // 
       // PlugboardSettings
       // 
-      this.PlugboardSettings.Location = new System.Drawing.Point(121, 138);
+      this.PlugboardSettings.Location = new System.Drawing.Point(355, 138);
       this.PlugboardSettings.Name = "PlugboardSettings";
       this.PlugboardSettings.Size = new System.Drawing.Size(183, 39);
       this.PlugboardSettings.TabIndex = 16;
-      this.PlugboardSettings.Text = "Ком.панель";
+      this.PlugboardSettings.Text = "Комммутационная панель";
       this.PlugboardSettings.UseVisualStyleBackColor = true;
       this.PlugboardSettings.Click += new System.EventHandler(this.PlugboardSettingsClick);
+      // 
+      // GoToOffsetSettings
+      // 
+      this.GoToOffsetSettings.Location = new System.Drawing.Point(121, 138);
+      this.GoToOffsetSettings.Name = "GoToOffsetSettings";
+      this.GoToOffsetSettings.Size = new System.Drawing.Size(228, 39);
+      this.GoToOffsetSettings.TabIndex = 17;
+      this.GoToOffsetSettings.Text = "Настройка разницы кольца и ротора";
+      this.GoToOffsetSettings.UseVisualStyleBackColor = true;
+      this.GoToOffsetSettings.Click += new System.EventHandler(this.button1_Click);
       // 
       // MainForm
       // 
       this.AutoScaleBaseSize = new System.Drawing.Size(6, 16);
       this.ClientSize = new System.Drawing.Size(728, 337);
+      this.Controls.Add(this.GoToOffsetSettings);
       this.Controls.Add(this.PlugboardSettings);
       this.Controls.Add(this.RingRotorsInfo);
-      this.Controls.Add(this.EncryptDecryptButton);
       this.Controls.Add(this.SettingsButton);
       this.Controls.Add(this.txtFinal);
       this.Controls.Add(this.txtInit);
@@ -290,8 +277,6 @@ namespace Enigma
 			LeftRotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", Rotor3Info, 'Q');
 			reflector = new Rotor("YRUHQSLDPXNGOKMIEBFZCWVJAT", null, '\0');
 
-			//J,Z
-
 			RightRotor.SetNextRotor(MiddleRotor);
 			MiddleRotor.SetNextRotor(LeftRotor);
 			LeftRotor.SetNextRotor(reflector);
@@ -310,68 +295,80 @@ namespace Enigma
 
 		void TxtInitTextChanged(object sender, System.EventArgs e)
 		{
-      
+      if(txtInit.Text.Length < txtFinal.Text.Length)
+      {
+        string s = txtFinal.Text;
+        for (int i = 0; i < s.Length - txtInit.Text.Length; i++)
+        {
+          RightRotor.MoveBack();
+        }
+        txtFinal.Clear();
+        txtFinal.AppendText(s.Remove(txtInit.Text.Length));
+      }
+
+      if(txtInit.Text.Length > txtFinal.Text.Length)
+      {
+        char[] charArray = txtInit.Text[txtFinal.Text.Length..].ToUpper().ToCharArray();
+        foreach (char c in charArray)
+        {
+          char q = c;
+          if (q >= 65 && q <= 90)
+          {
+            q = ChangeCharPlugs(q);
+            RightRotor.Move();
+            RightRotor.PutDataIn(q);
+            q = RightRotor.GetDataOut();
+            txtFinal.AppendText("" + ChangeCharPlugs(q));
+          }
+          else
+          {
+            int l = txtInit.Text.IndexOf(q);
+            if(l == 0)
+            {
+              txtInit.Clear();
+            }
+            else
+            {
+              txtInit.Text = txtInit.Text.Remove(l, 1);
+              txtInit.SelectionStart = txtInit.Text.Length;
+            }
+          }
+        }
+      }
     }
-
-		void TxtInitKeyUp(object sender, KeyEventArgs e)
+  void BtnRotor1UpClick(object sender, System.EventArgs e)
 		{
-			if ((e.KeyValue >= 65 && e.KeyValue <= 90) && !e.Control)
-			{
-				RightRotor.Move();
-				RightRotor.PutDataIn((char)e.KeyValue);
-				txtFinal.AppendText("" + RightRotor.GetDataOut());
-			}
-		}
-
-		void BtnRotor1UpClick(object sender, System.EventArgs e)
-		{
-			RightRotor.Move();
+			RightRotor.MoveByClick();
 		}
 
 		void BtnRotor1DownClick(object sender, System.EventArgs e)
 		{
-			RightRotor.MoveBack();
+			RightRotor.MoveBackByClick();
 		}
 		void BtnRotor2UpClick(object sender, System.EventArgs e)
 		{
-			MiddleRotor.Move();
+			MiddleRotor.MoveByClick();
 		}
 		void BtnRotor2DownClick(object sender, System.EventArgs e)
 		{
-			MiddleRotor.MoveBack();
+			MiddleRotor.MoveBackByClick();
 		}
 		void BtnRotor3UpClick(object sender, System.EventArgs e)
 		{
-			LeftRotor.Move();
+			LeftRotor.MoveByClick();
 		}
 
 		void BtnRotor3DownClick(object sender, System.EventArgs e)
 		{
-			LeftRotor.MoveBack();
+			LeftRotor.MoveBackByClick();
 		}
-
-		void Button1Click(object sender, System.EventArgs e)
-		{
-			char[] chIn = txtInit.Text.ToUpper().ToCharArray();
-			txtFinal.Text = "";
-			for (int i = 0; i < chIn.Length; i++)
-			{
-				if (chIn[i] >= 65 && chIn[i] <= 90)
-				{
-					RightRotor.Move();
-					RightRotor.PutDataIn(chIn[i]);
-					txtFinal.AppendText("" + RightRotor.GetDataOut());
-				}
-			}
-		}
-
 		public void ChangeRotors(string rot1, string rotName1, char rotNotch1,
 														 string rot2, string rotName2, char rotNotch2,
 														 string rot3, string rotName3, char rotNotch3)
 		{
-			lblRotorS.Text = rotName1;
+			lblRotorL.Text = rotName1;
 			lblRotorM.Text = rotName2;
-			lblRotorD.Text = rotName3;
+			lblRotorR.Text = rotName3;
 			RightRotor = null;
 			MiddleRotor = null;
 			LeftRotor = null;
@@ -428,6 +425,66 @@ namespace Enigma
 			return LeftRotor.GetLayout();
 		}
 
-    
+    private void button1_Click(object sender, EventArgs e)
+    {
+      OffsetSettings os = new(this);
+      os.ShowDialog();
+    }
+
+    public char ChangeCharPlugs(char c)
+    {
+      foreach (char[] wires in SteckerWiring.Values)
+      {
+        if (c == wires[0])
+        {
+          c = wires[1];
+          return c;
+        }
+        else if (c == wires[1])
+        {
+          c = wires[0];
+          return c;
+        }
+      }
+      return c;
+    }
+    public void GetPlugbord(Dictionary<int, char[]> dict)
+    {
+      SteckerWiring = dict;
+    }
+
+    public string GiveInfoAbtLblL()
+    {
+      return lblRotorL.Text;
+    }
+
+    public string GiveInfoAbtLblM()
+    {
+      return lblRotorM.Text;
+    }
+
+    public string GiveInfoAbtLblR()
+    {
+      return lblRotorR.Text;
+    }
+    public Rotor GiveInfoAbtRotorL()
+    {
+      return LeftRotor;
+    }
+    public Rotor GiveInfoAbtRotorM()
+    {
+      return MiddleRotor;
+    }
+    public Rotor GiveInfoAbtRotorR()
+    {
+      return RightRotor;
+    }
+
+    public void GetInfoAbtRotors(Rotor rot1, Rotor rot2, Rotor rot3)
+    {
+      LeftRotor = rot1;
+      MiddleRotor = rot2;
+      RightRotor = rot3;
+    }
   }
 }

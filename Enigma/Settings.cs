@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Collections;
 
@@ -70,7 +69,7 @@ namespace Enigma
       // 
       // SelectButton
       // 
-      this.SelectButton.Image = ((System.Drawing.Image)(resources.GetObject("SelectButton.Image")));
+      this.SelectButton.Image = global::Enigma.Properties.Resources.FingerRight;
       this.SelectButton.Location = new System.Drawing.Point(182, 46);
       this.SelectButton.Name = "SelectButton";
       this.SelectButton.Size = new System.Drawing.Size(48, 36);
@@ -79,7 +78,7 @@ namespace Enigma
       // 
       // RotorDownButton
       // 
-      this.RotorDownButton.Image = ((System.Drawing.Image)(resources.GetObject("RotorDownButton.Image")));
+      this.RotorDownButton.Image = global::Enigma.Properties.Resources.FingerDown;
       this.RotorDownButton.Location = new System.Drawing.Point(182, 183);
       this.RotorDownButton.Name = "RotorDownButton";
       this.RotorDownButton.Size = new System.Drawing.Size(48, 36);
@@ -96,7 +95,7 @@ namespace Enigma
       // 
       // OkButton
       // 
-      this.OkButton.Image = ((System.Drawing.Image)(resources.GetObject("OkButton.Image")));
+      this.OkButton.Image = global::Enigma.Properties.Resources.Check;
       this.OkButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.OkButton.Location = new System.Drawing.Point(307, 375);
       this.OkButton.Name = "OkButton";
@@ -108,7 +107,7 @@ namespace Enigma
       // 
       // DeselectButton
       // 
-      this.DeselectButton.Image = ((System.Drawing.Image)(resources.GetObject("DeselectButton.Image")));
+      this.DeselectButton.Image = global::Enigma.Properties.Resources.FingerLeft;
       this.DeselectButton.Location = new System.Drawing.Point(182, 91);
       this.DeselectButton.Name = "DeselectButton";
       this.DeselectButton.Size = new System.Drawing.Size(48, 37);
@@ -144,8 +143,8 @@ namespace Enigma
       // 
       // RotorUpButton
       // 
-      this.RotorUpButton.Image = ((System.Drawing.Image)(resources.GetObject("RotorUpButton.Image")));
-      this.RotorUpButton.Location = new System.Drawing.Point(182, 137);
+      this.RotorUpButton.Image = global::Enigma.Properties.Resources.FingerUp;
+      this.RotorUpButton.Location = new System.Drawing.Point(182, 140);
       this.RotorUpButton.Name = "RotorUpButton";
       this.RotorUpButton.Size = new System.Drawing.Size(48, 37);
       this.RotorUpButton.TabIndex = 3;
@@ -185,7 +184,7 @@ namespace Enigma
       // 
       // Cancel
       // 
-      this.Cancel.Image = ((System.Drawing.Image)(resources.GetObject("Cancel.Image")));
+      this.Cancel.Image = global::Enigma.Properties.Resources.Delete;
       this.Cancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.Cancel.Location = new System.Drawing.Point(211, 375);
       this.Cancel.Name = "Cancel";
@@ -430,7 +429,7 @@ namespace Enigma
 											alRotName[2].ToString(),
 											alRotNotch[2].ToString().ToCharArray()[0]);
 
-			if (ComboReflector.SelectedIndex > -0)
+			if (ComboReflector.SelectedIndex > 0)
 			{
 				mainForm.SetReflector(refl: ComboReflector.SelectedItem.ToString()[(ComboReflector.SelectedItem.ToString().LastIndexOf("=") + 2)..].Trim());
 			}

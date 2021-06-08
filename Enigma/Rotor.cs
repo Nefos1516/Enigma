@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Enigma
@@ -7,9 +6,11 @@ namespace Enigma
 	public class Rotor
 	{
 		private readonly string layout;
-		private byte offset;
+		private byte RingOffset;
+		private byte RotorOffset;
 		private Rotor previous, next;
 		private readonly Label lbl;
+		private Label OffLabel;
 		private char cIn = '\0', notchPos;
 
 		public Rotor(string layout, Label lbl, char notchPos)
@@ -17,8 +18,8 @@ namespace Enigma
 			this.layout = layout;
 			this.lbl = lbl;
 			this.notchPos = notchPos;
-			offset = 0;
-
+			RingOffset = 0;
+			RotorOffset = 0;
 		}
 
 		public string GetLayout()
@@ -38,47 +39,29 @@ namespace Enigma
 		public char GetInverseCharAt(string ch)
 		{
 			int pos = layout.IndexOf(ch);
-
-			if (offset > pos)
+			int q = RingOffset + RotorOffset;
+			if (q > pos)
 			{
-				pos = 26 - (offset - pos);
+				pos = 26 - (q - pos);
 			}
 			else
 			{
-				pos = pos - offset;
+				pos = pos - q;
 			}
 
 			if (previous != null)
 			{
-				pos = (pos + previous.GetOffset()) % 26;
+				int q1 = previous.RingOffset + previous.RotorOffset;
+				if (q1 >= 26) q1 -= 26;
+				pos = (pos + q1) % 26;
 			}
 
 			return (char)(65 + pos);
 		}
-
-		public int GetOffset()
-		{
-			return offset;
-		}
-
-		public char GetNotchPos()
-		{
-			return notchPos;
-		}
-
 		public void ResetOffset()
 		{
-			offset = 0;
-		}
-
-		public bool HasNext()
-		{
-			return next != null;
-		}
-
-		public bool HasPrevious()
-		{
-			return previous != null;
+			RingOffset = 0;
+			RotorOffset = 0;
 		}
 
 		public void Move()
@@ -87,51 +70,104 @@ namespace Enigma
 			{
 				return;
 			}
-			offset++;
-			if (offset == 26)
+			RingOffset++;
+			if (RingOffset == 26)
 			{
-				offset = 0;
+				RingOffset = 0;
 			}
 
-			if (next != null && (offset + 66) == ((notchPos - 64) % 26) + 66)
+			if (next != null && (RingOffset + 66) == ((notchPos - 64) % 26) + 66)
 			{
 				next.Move();
 			}
-			lbl.Text = "" + ((char)(65 + offset));
+			lbl.Text = "" + ((char)(65 + RingOffset));
 		}
 
+		public void ChangeRotorOffsetUp()
+    {
+			RotorOffset++;
+			if (RotorOffset == 26)
+			{
+				RotorOffset = 0;
+			}
+			OffLabel.Text = "" + ((char)(65 + RotorOffset));
+		}
+		public void ChangeRotorOffsetDown()
+		{
+			if (RotorOffset == 0)
+			{
+				RotorOffset = 26;
+			}
+			RotorOffset--;
+			OffLabel.Text = "" + ((char)(65 + RotorOffset));
+		}
+
+
+		public void MoveByClick()
+    {
+			RingOffset++;
+			if (RingOffset == 26)
+			{
+				RingOffset = 0;
+			}
+			lbl.Text = "" + ((char)(65 + RingOffset));
+		}
+
+		public void MoveBackByClick()
+    {
+			if (RingOffset == 0)
+			{
+				RingOffset = 26;
+			}
+			RingOffset--;
+			lbl.Text = "" + ((char)(65 + RingOffset));
+		}
+		
 		public void MoveBack()
 		{
-			if (offset == 0)
+			if (RingOffset == 0)
 			{
-				offset = 26;
+				RingOffset = 26;
 			}
-			offset--;
+			RingOffset--;
 
-			lbl.Text = "" + ((char)(65 + offset));
+			if (next != null && (RingOffset + 66) == ((notchPos - 64) % 26) + 66)
+			{
+				next.MoveBack();
+			}
+
+			lbl.Text = "" + ((char)(65 + RingOffset));
 		}
 
 		public void PutDataIn(char s)
 		{
 			cIn = s;
 			char c = s;
-			c = (char)(((c - 65) + offset) % 26 + 65);
+			int q = RingOffset + RotorOffset;
+			if (q >= 26) q -= 26;
+			c = (char)((c - 65 + q) % 26 + 65);
 
 			if (next != null)
 			{
 				c = layout.Substring((c - 65), 1).ToCharArray()[0];
-				if ((((c - 65) + (-offset)) % 26 + 65) >= 65)
+				if (((c - 65 - q) % 26 + 65) >= 65)
 				{
-					c = (char)(((c - 65) + (-offset)) % 26 + 65);
+					c = (char)((c - 65 - q) % 26 + 65);
 				}
 				else
 				{
-					c = (char)(((c - 65) + (26 + (-offset))) % 26 + 65);
+					c = (char)((c - 65 + 26 - q) % 26 + 65);
 				}
 				next.PutDataIn(c);
 
 			}
 		}
+
+		public void ChangeOffsetLabel(Label Lbl)
+    {
+			OffLabel = Lbl;
+			OffLabel.Text = "" + (char)(65 + RotorOffset);
+    }
 
 		public char GetDataOut()
 		{
@@ -142,12 +178,12 @@ namespace Enigma
 				c = GetInverseCharAt("" + c);
 			}
 			else
-			{ 
+			{
 				c = layout.Substring((cIn - 65), 1).ToCharArray()[0];
-				c = (char)(((c - 65) + previous.offset) % 26 + 65);
-
+				int q = previous.RingOffset + previous.RotorOffset;
+				if (q >= 26) q -= 26;
+				c = (char)(((c - 65) + q) % 26 + 65);
 			}
-
 			return c;
 		}
 
