@@ -35,10 +35,11 @@ namespace Enigma
       this.previous = previous;
     }
 
-    public char GetInverseCharAt(string ch)
+    public char GetInverseCharAt(char ch)
     {
       int pos = layout.IndexOf(ch);
       int q = RingOffset + RotorOffset;
+      if (q >= 26) q -= 26;
       if (q > pos)
       {
         pos = 26 - (q - pos);
@@ -174,14 +175,14 @@ namespace Enigma
       if (next != null)
       {
         c = next.GetDataOut();
-        c = GetInverseCharAt("" + c);
+        c = GetInverseCharAt(c);
       }
       else
       {
         c = layout.Substring((cIn - 65), 1).ToCharArray()[0];
         int q = previous.RingOffset + previous.RotorOffset;
         if (q >= 26) q -= 26;
-        c = (char)(((c - 65) + q) % 26 + 65);
+        c = (char)((c - 65 + q) % 26 + 65);
       }
       return c;
     }

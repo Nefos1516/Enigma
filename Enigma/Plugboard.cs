@@ -585,6 +585,8 @@ namespace Enigma
 
     private void CancelClick(object sender, EventArgs e)
     {
+      SteckerWiring.Clear();
+      charsForWiring.Clear();
       Close();
     }
 
@@ -637,8 +639,6 @@ namespace Enigma
 
     private void Plugboard_Load(object sender, EventArgs e)
     {
-
-
     }
   }
 }
