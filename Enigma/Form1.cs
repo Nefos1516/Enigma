@@ -192,7 +192,7 @@ namespace Enigma
       this.lblRotorL.Name = "lblRotorL";
       this.lblRotorL.Size = new System.Drawing.Size(39, 29);
       this.lblRotorL.TabIndex = 20;
-      this.lblRotorL.Text = "I";
+      this.lblRotorL.Text = "III";
       this.lblRotorL.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       // 
       // lblRotorR
@@ -202,7 +202,7 @@ namespace Enigma
       this.lblRotorR.Name = "lblRotorR";
       this.lblRotorR.Size = new System.Drawing.Size(39, 29);
       this.lblRotorR.TabIndex = 18;
-      this.lblRotorR.Text = "III";
+      this.lblRotorR.Text = "I";
       this.lblRotorR.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       // 
       // Rotor1Down
@@ -272,9 +272,9 @@ namespace Enigma
 
     void MainFormLoad(object sender, System.EventArgs e)
     {
-      RightRotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", Rotor1Info, 'V');
+      LeftRotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", Rotor3Info, 'V');
       MiddleRotor = new Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", Rotor2Info, 'E');
-      LeftRotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", Rotor3Info, 'Q');
+      RightRotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", Rotor1Info, 'Q');
       reflector = new Rotor("YRUHQSLDPXNGOKMIEBFZCWVJAT", null, '\0');
 
       RightRotor.SetNextRotor(MiddleRotor);
