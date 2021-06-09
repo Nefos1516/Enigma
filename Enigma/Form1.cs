@@ -4,33 +4,33 @@ using System.Windows.Forms;
 
 namespace Enigma
 {
-	public class MainForm : Form
-	{
-		private Button Rotor1Down;
-		private Label lblRotorR;
-		private Label lblRotorL;
-		private Button SettingsButton;
-		private GroupBox RingRotorsInfo;
-		private Button Rotor2Down;
-		private Label Rotor3Info;
-		private Label Rotor1Info;
-		private TextBox txtInit;
-		private Button Rotor1Up;
-		private TextBox txtFinal;
-		private Button Rotor2Up;
-		private Label lblRotorM;
-		private Button Rotor3Up;
-		private Label Rotor2Info;
-		private Button Rotor3Down;
+  public class MainForm : Form
+  {
+    private Button Rotor1Down;
+    private Label lblRotorR;
+    private Label lblRotorL;
+    private Button SettingsButton;
+    private GroupBox RingRotorsInfo;
+    private Button Rotor2Down;
+    private Label Rotor3Info;
+    private Label Rotor1Info;
+    private TextBox txtInit;
+    private Button Rotor1Up;
+    private TextBox txtFinal;
+    private Button Rotor2Up;
+    private Label lblRotorM;
+    private Button Rotor3Up;
+    private Label Rotor2Info;
+    private Button Rotor3Down;
     private Button PlugboardSettings;
     private Button GoToOffsetSettings;
     private Rotor RightRotor, MiddleRotor, LeftRotor, reflector;
     private Dictionary<int, char[]> SteckerWiring = new();
 
-		public MainForm()
-		{
+    public MainForm()
+    {
       InitializeComponent();
-		}
+    }
 
     private void InitializeComponent()
     {
@@ -268,34 +268,34 @@ namespace Enigma
       this.PerformLayout();
 
     }
-		
-
-		void MainFormLoad(object sender, System.EventArgs e)
-		{
-			RightRotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", Rotor1Info, 'V');
-			MiddleRotor = new Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", Rotor2Info, 'E');
-			LeftRotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", Rotor3Info, 'Q');
-			reflector = new Rotor("YRUHQSLDPXNGOKMIEBFZCWVJAT", null, '\0');
-
-			RightRotor.SetNextRotor(MiddleRotor);
-			MiddleRotor.SetNextRotor(LeftRotor);
-			LeftRotor.SetNextRotor(reflector);
-			MiddleRotor.SetPreviousRotor(RightRotor);
-			LeftRotor.SetPreviousRotor(MiddleRotor);
-			reflector.SetPreviousRotor(LeftRotor);
-
-		}
 
 
-		void BtnSettingsClick(object sender, System.EventArgs e)
-		{
-			Settings s = new(this);
-			s.ShowDialog();
-		}
+    void MainFormLoad(object sender, System.EventArgs e)
+    {
+      RightRotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", Rotor1Info, 'V');
+      MiddleRotor = new Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", Rotor2Info, 'E');
+      LeftRotor = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", Rotor3Info, 'Q');
+      reflector = new Rotor("YRUHQSLDPXNGOKMIEBFZCWVJAT", null, '\0');
 
-		void TxtInitTextChanged(object sender, System.EventArgs e)
-		{
-      if(txtInit.Text.Length < txtFinal.Text.Length)
+      RightRotor.SetNextRotor(MiddleRotor);
+      MiddleRotor.SetNextRotor(LeftRotor);
+      LeftRotor.SetNextRotor(reflector);
+      MiddleRotor.SetPreviousRotor(RightRotor);
+      LeftRotor.SetPreviousRotor(MiddleRotor);
+      reflector.SetPreviousRotor(LeftRotor);
+
+    }
+
+
+    void BtnSettingsClick(object sender, System.EventArgs e)
+    {
+      Settings s = new(this);
+      s.ShowDialog();
+    }
+
+    void TxtInitTextChanged(object sender, System.EventArgs e)
+    {
+      if (txtInit.Text.Length < txtFinal.Text.Length)
       {
         string s = txtFinal.Text;
         for (int i = 0; i < s.Length - txtInit.Text.Length; i++)
@@ -306,7 +306,7 @@ namespace Enigma
         txtFinal.AppendText(s.Remove(txtInit.Text.Length));
       }
 
-      if(txtInit.Text.Length > txtFinal.Text.Length)
+      if (txtInit.Text.Length > txtFinal.Text.Length)
       {
         char[] charArray = txtInit.Text[txtFinal.Text.Length..].ToUpper().ToCharArray();
         foreach (char c in charArray)
@@ -323,7 +323,7 @@ namespace Enigma
           else
           {
             int l = txtInit.Text.IndexOf(q);
-            if(l == 0)
+            if (l == 0)
             {
               txtInit.Clear();
             }
@@ -336,79 +336,79 @@ namespace Enigma
         }
       }
     }
-  void BtnRotor1UpClick(object sender, System.EventArgs e)
-		{
-			RightRotor.MoveByClick();
-		}
+    void BtnRotor1UpClick(object sender, System.EventArgs e)
+    {
+      RightRotor.MoveByClick();
+    }
 
-		void BtnRotor1DownClick(object sender, System.EventArgs e)
-		{
-			RightRotor.MoveBackByClick();
-		}
-		void BtnRotor2UpClick(object sender, System.EventArgs e)
-		{
-			MiddleRotor.MoveByClick();
-		}
-		void BtnRotor2DownClick(object sender, System.EventArgs e)
-		{
-			MiddleRotor.MoveBackByClick();
-		}
-		void BtnRotor3UpClick(object sender, System.EventArgs e)
-		{
-			LeftRotor.MoveByClick();
-		}
+    void BtnRotor1DownClick(object sender, System.EventArgs e)
+    {
+      RightRotor.MoveBackByClick();
+    }
+    void BtnRotor2UpClick(object sender, System.EventArgs e)
+    {
+      MiddleRotor.MoveByClick();
+    }
+    void BtnRotor2DownClick(object sender, System.EventArgs e)
+    {
+      MiddleRotor.MoveBackByClick();
+    }
+    void BtnRotor3UpClick(object sender, System.EventArgs e)
+    {
+      LeftRotor.MoveByClick();
+    }
 
-		void BtnRotor3DownClick(object sender, System.EventArgs e)
-		{
-			LeftRotor.MoveBackByClick();
-		}
-		public void ChangeRotors(string rot1, string rotName1, char rotNotch1,
-														 string rot2, string rotName2, char rotNotch2,
-														 string rot3, string rotName3, char rotNotch3)
-		{
-			lblRotorL.Text = rotName1;
-			lblRotorM.Text = rotName2;
-			lblRotorR.Text = rotName3;
-			RightRotor = null;
-			MiddleRotor = null;
-			LeftRotor = null;
+    void BtnRotor3DownClick(object sender, System.EventArgs e)
+    {
+      LeftRotor.MoveBackByClick();
+    }
+    public void ChangeRotors(string rot1, string rotName1, char rotNotch1,
+                             string rot2, string rotName2, char rotNotch2,
+                             string rot3, string rotName3, char rotNotch3)
+    {
+      lblRotorL.Text = rotName1;
+      lblRotorM.Text = rotName2;
+      lblRotorR.Text = rotName3;
+      RightRotor = null;
+      MiddleRotor = null;
+      LeftRotor = null;
 
-			RightRotor = new Rotor(rot3, Rotor1Info, rotNotch3);
-			MiddleRotor = new Rotor(rot2, Rotor2Info, rotNotch2);
-			LeftRotor = new Rotor(rot1, Rotor3Info, rotNotch1);
+      RightRotor = new Rotor(rot3, Rotor1Info, rotNotch3);
+      MiddleRotor = new Rotor(rot2, Rotor2Info, rotNotch2);
+      LeftRotor = new Rotor(rot1, Rotor3Info, rotNotch1);
 
-			RightRotor.ResetOffset();
-			MiddleRotor.ResetOffset();
-			LeftRotor.ResetOffset();
+      RightRotor.ResetOffset();
+      MiddleRotor.ResetOffset();
+      LeftRotor.ResetOffset();
 
-			RightRotor.SetNextRotor(MiddleRotor);
-			MiddleRotor.SetNextRotor(LeftRotor);
-			LeftRotor.SetNextRotor(reflector);
-			MiddleRotor.SetPreviousRotor(RightRotor);
-			LeftRotor.SetPreviousRotor(MiddleRotor);
-			reflector.SetPreviousRotor(LeftRotor);
+      RightRotor.SetNextRotor(MiddleRotor);
+      MiddleRotor.SetNextRotor(LeftRotor);
+      LeftRotor.SetNextRotor(reflector);
+      MiddleRotor.SetPreviousRotor(RightRotor);
+      LeftRotor.SetPreviousRotor(MiddleRotor);
+      reflector.SetPreviousRotor(LeftRotor);
 
-			Rotor1Info.Text = "A";
-			Rotor2Info.Text = "A";
-			Rotor3Info.Text = "A";
-		}
+      Rotor1Info.Text = "A";
+      Rotor2Info.Text = "A";
+      Rotor3Info.Text = "A";
+    }
 
-		public void SetReflector(string refl)
-		{
-			reflector = new Rotor(refl, null, '\0');
-			reflector.SetPreviousRotor(LeftRotor);
-			LeftRotor.SetNextRotor(reflector);
-		}
+    public void SetReflector(string refl)
+    {
+      reflector = new Rotor(refl, null, '\0');
+      reflector.SetPreviousRotor(LeftRotor);
+      LeftRotor.SetNextRotor(reflector);
+    }
 
-		public string GetReflector()
-		{
-			return reflector.GetLayout();
-		}
+    public string GetReflector()
+    {
+      return reflector.GetLayout();
+    }
 
     public string GetRightRotor()
-		{
-			return RightRotor.GetLayout();
-		}
+    {
+      return RightRotor.GetLayout();
+    }
 
     private void PlugboardSettingsClick(object sender, EventArgs e)
     {
@@ -417,13 +417,13 @@ namespace Enigma
     }
 
     public string GetMiddleRotor()
-		{
-			return MiddleRotor.GetLayout();
-		}
-		public string GetLeftRotor()
-		{
-			return LeftRotor.GetLayout();
-		}
+    {
+      return MiddleRotor.GetLayout();
+    }
+    public string GetLeftRotor()
+    {
+      return LeftRotor.GetLayout();
+    }
 
     private void button1_Click(object sender, EventArgs e)
     {

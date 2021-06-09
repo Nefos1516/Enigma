@@ -1,48 +1,47 @@
-﻿using System;
+﻿using System.Collections;
 using System.Windows.Forms;
-using System.Collections;
 
 namespace Enigma
 {
-	/// <summary>
-	/// Description of Settings.
-	/// </summary>
-	public class Settings : Form
-	{
-		private System.ComponentModel.IContainer components;
-		private ListBox SelectedRotors;
-		private Label RotorStructure;
-		private ListBox AvailableRotors;
-		private Button Cancel;
-		private GroupBox RotorLayoutsBox;
-		private ComboBox ComboReflector;
-		private ToolTip ToolTipDownButton;
-		private ToolTip ToolTipSelectButton;
-		private ToolTip ToolTipDeSelectButton;
-		private Button RotorUpButton;
-		private Label SelectedRotorsLabel;
-		private Label AvailableRotorsLabel;
-		private Label DefaultLayout;
-		private Button DeselectButton;
-		private Button OkButton;
-		private Label ReflectorLabel;
-		private Button RotorDownButton;
-		private Button SelectButton;
-		private ToolTip ToolTipRotorUp;
-		private string rotor1, rotor2, rotor3, rotor4, rotor5;
-		private MainForm mainForm;
-		private ArrayList al1, al2, al3;
+  /// <summary>
+  /// Description of Settings.
+  /// </summary>
+  public class Settings : Form
+  {
+    private System.ComponentModel.IContainer components;
+    private ListBox SelectedRotors;
+    private Label RotorStructure;
+    private ListBox AvailableRotors;
+    private Button Cancel;
+    private GroupBox RotorLayoutsBox;
+    private ComboBox ComboReflector;
+    private ToolTip ToolTipDownButton;
+    private ToolTip ToolTipSelectButton;
+    private ToolTip ToolTipDeSelectButton;
+    private Button RotorUpButton;
+    private Label SelectedRotorsLabel;
+    private Label AvailableRotorsLabel;
+    private Label DefaultLayout;
+    private Button DeselectButton;
+    private Button OkButton;
+    private Label ReflectorLabel;
+    private Button RotorDownButton;
+    private Button SelectButton;
+    private ToolTip ToolTipRotorUp;
+    private string rotor1, rotor2, rotor3, rotor4, rotor5;
+    private MainForm mainForm;
+    private ArrayList al1, al2, al3;
 
-		public Settings(MainForm mainForm)
-		{
-			InitializeComponent();
-			this.mainForm = mainForm;
-		}
+    public Settings(MainForm mainForm)
+    {
+      InitializeComponent();
+      this.mainForm = mainForm;
+    }
 
-		#region Windows Forms Designer generated code
+    #region Windows Forms Designer generated code
 
-		private void InitializeComponent()
-		{
+    private void InitializeComponent()
+    {
       this.components = new System.ComponentModel.Container();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
       this.ToolTipRotorUp = new System.Windows.Forms.ToolTip(this.components);
@@ -245,195 +244,195 @@ namespace Enigma
       this.RotorLayoutsBox.ResumeLayout(false);
       this.ResumeLayout(false);
 
-		}
-		#endregion
-		void CancelClick(object sender, System.EventArgs e)
-		{
-			Close();
-		}
+    }
+    #endregion
+    void CancelClick(object sender, System.EventArgs e)
+    {
+      Close();
+    }
 
-		void SettingsLoad(object sender, System.EventArgs e)
-		{
-			al1 = new ArrayList();
-			al2 = new ArrayList();
-			al3 = new ArrayList();
-			al1.Add("Rotor I");
-			al1.Add("Rotor II");
-			al1.Add("Rotor III");
-			al1.Add("Rotor IV");
-			al1.Add("Rotor V");
-			rotor1 = "EKMFLGDQVZNTOWYHXUSPAIBRCJ";
-			rotor2 = "AJDKSIRUXBLHWTMCQGZNPYFVOE";
-			rotor3 = "BDFHJLCPRTXVZNYEIWGAKMUSQO";
-			rotor4 = "ESOVPZJAYQUIRHXLNFTGKDCMWB";
-			rotor5 = "VZBRGITYUPSDNHLXAWMJQOFECK";
-			al2.Add(rotor1);
-			al2.Add(rotor2);
-			al2.Add(rotor3);
-			al2.Add(rotor4);
-			al2.Add(rotor5);
-			al3.Add("Q");
-			al3.Add("E");
-			al3.Add("V");
-			al3.Add("J");
-			al3.Add("Z");
-			AvailableRotors.Items.Clear();
-			for (int i = 0; i < al1.Count; i++)
-			{
-				AvailableRotors.Items.Add(al1[i]);
-			}
-			ToolTipSelectButton.SetToolTip(SelectButton, "Включить ротор");
-			ToolTipDeSelectButton.SetToolTip(DeselectButton, "Выключить ротор");
-			ToolTipRotorUp.SetToolTip(RotorUpButton, "Ротор вверх");
-			ToolTipDownButton.SetToolTip(RotorDownButton, "Ротор вниз");
+    void SettingsLoad(object sender, System.EventArgs e)
+    {
+      al1 = new ArrayList();
+      al2 = new ArrayList();
+      al3 = new ArrayList();
+      al1.Add("Rotor I");
+      al1.Add("Rotor II");
+      al1.Add("Rotor III");
+      al1.Add("Rotor IV");
+      al1.Add("Rotor V");
+      rotor1 = "EKMFLGDQVZNTOWYHXUSPAIBRCJ";
+      rotor2 = "AJDKSIRUXBLHWTMCQGZNPYFVOE";
+      rotor3 = "BDFHJLCPRTXVZNYEIWGAKMUSQO";
+      rotor4 = "ESOVPZJAYQUIRHXLNFTGKDCMWB";
+      rotor5 = "VZBRGITYUPSDNHLXAWMJQOFECK";
+      al2.Add(rotor1);
+      al2.Add(rotor2);
+      al2.Add(rotor3);
+      al2.Add(rotor4);
+      al2.Add(rotor5);
+      al3.Add("Q");
+      al3.Add("E");
+      al3.Add("V");
+      al3.Add("J");
+      al3.Add("Z");
+      AvailableRotors.Items.Clear();
+      for (int i = 0; i < al1.Count; i++)
+      {
+        AvailableRotors.Items.Add(al1[i]);
+      }
+      ToolTipSelectButton.SetToolTip(SelectButton, "Включить ротор");
+      ToolTipDeSelectButton.SetToolTip(DeselectButton, "Выключить ротор");
+      ToolTipRotorUp.SetToolTip(RotorUpButton, "Ротор вверх");
+      ToolTipDownButton.SetToolTip(RotorDownButton, "Ротор вниз");
 
-			for (int i = 0; i < ComboReflector.Items.Count; i++)
-			{
-				if (ComboReflector.Items[i].ToString().EndsWith(mainForm.GetReflector()))
-				{
-					ComboReflector.SelectedIndex = i;
-				}
-			}
+      for (int i = 0; i < ComboReflector.Items.Count; i++)
+      {
+        if (ComboReflector.Items[i].ToString().EndsWith(mainForm.GetReflector()))
+        {
+          ComboReflector.SelectedIndex = i;
+        }
+      }
 
-			for (int i = 0; i < al2.Count; i++)
-			{
-				if (al2[i].ToString() == mainForm.GetLeftRotor())
-				{
-					AvailableRotors.Items.Remove(al1[i].ToString());
-					SelectedRotors.Items.Add(al1[i].ToString());
-					break;
-				}
-			}
+      for (int i = 0; i < al2.Count; i++)
+      {
+        if (al2[i].ToString() == mainForm.GetLeftRotor())
+        {
+          AvailableRotors.Items.Remove(al1[i].ToString());
+          SelectedRotors.Items.Add(al1[i].ToString());
+          break;
+        }
+      }
 
-			for (int i = 0; i < al2.Count; i++)
-			{
-				if (al2[i].ToString() == mainForm.GetMiddleRotor())
-				{
-					AvailableRotors.Items.Remove(al1[i].ToString());
-					SelectedRotors.Items.Add(al1[i].ToString());
-					break;
-				}
-			}
-			for (int i = 0; i < al2.Count; i++)
-			{
-				if (al2[i].ToString() == mainForm.GetRightRotor())
-				{
-					AvailableRotors.Items.Remove(al1[i].ToString());
-					SelectedRotors.Items.Add(al1[i].ToString());
-					break;
-				}
-			}
-		}
+      for (int i = 0; i < al2.Count; i++)
+      {
+        if (al2[i].ToString() == mainForm.GetMiddleRotor())
+        {
+          AvailableRotors.Items.Remove(al1[i].ToString());
+          SelectedRotors.Items.Add(al1[i].ToString());
+          break;
+        }
+      }
+      for (int i = 0; i < al2.Count; i++)
+      {
+        if (al2[i].ToString() == mainForm.GetRightRotor())
+        {
+          AvailableRotors.Items.Remove(al1[i].ToString());
+          SelectedRotors.Items.Add(al1[i].ToString());
+          break;
+        }
+      }
+    }
 
-		void AvailableRotorsSelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			if (AvailableRotors.SelectedIndex < 0)
-			{
-				return;
-			}
-			for (int i = 0; i < al1.Count; i++)
-			{
-				if (AvailableRotors.SelectedItem.ToString() == "" + al1[i])
-				{
-					RotorStructure.Text = "" + al2[i];
-					return;
-				}
-			}
-			RotorStructure.Text = "";
-		}
+    void AvailableRotorsSelectedIndexChanged(object sender, System.EventArgs e)
+    {
+      if (AvailableRotors.SelectedIndex < 0)
+      {
+        return;
+      }
+      for (int i = 0; i < al1.Count; i++)
+      {
+        if (AvailableRotors.SelectedItem.ToString() == "" + al1[i])
+        {
+          RotorStructure.Text = "" + al2[i];
+          return;
+        }
+      }
+      RotorStructure.Text = "";
+    }
 
-		void SelectRotor(object sender, System.EventArgs e)
-		{
-			if (AvailableRotors.SelectedIndex < 0)
-			{
-				MessageBox.Show(this, "Выберите ротор слева!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				return;
-			}
-			SelectedRotors.Items.Add(AvailableRotors.SelectedItem);
-			AvailableRotors.Items.Remove(AvailableRotors.SelectedItem);
-			RotorStructure.Text = "";
-		}
+    void SelectRotor(object sender, System.EventArgs e)
+    {
+      if (AvailableRotors.SelectedIndex < 0)
+      {
+        MessageBox.Show(this, "Выберите ротор слева!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        return;
+      }
+      SelectedRotors.Items.Add(AvailableRotors.SelectedItem);
+      AvailableRotors.Items.Remove(AvailableRotors.SelectedItem);
+      RotorStructure.Text = "";
+    }
 
-		void DeSelectRotor(object sender, System.EventArgs e)
-		{
-			if (SelectedRotors.SelectedIndex < 0)
-			{
-				MessageBox.Show(this, "Выберите ротор справа!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				return;
-			}
-			AvailableRotors.Items.Add(SelectedRotors.SelectedItem);
-			SelectedRotors.Items.Remove(SelectedRotors.SelectedItem);
-		}
+    void DeSelectRotor(object sender, System.EventArgs e)
+    {
+      if (SelectedRotors.SelectedIndex < 0)
+      {
+        MessageBox.Show(this, "Выберите ротор справа!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        return;
+      }
+      AvailableRotors.Items.Add(SelectedRotors.SelectedItem);
+      SelectedRotors.Items.Remove(SelectedRotors.SelectedItem);
+    }
 
-		void RotorEarlier(object sender, System.EventArgs e)
-		{
-			if (SelectedRotors.SelectedIndex <= 0)
-			{
-				return;
-			}
+    void RotorEarlier(object sender, System.EventArgs e)
+    {
+      if (SelectedRotors.SelectedIndex <= 0)
+      {
+        return;
+      }
 
-			string strTemp = "" + SelectedRotors.Items[SelectedRotors.SelectedIndex - 1];
-			SelectedRotors.Items[SelectedRotors.SelectedIndex - 1] = SelectedRotors.SelectedItem;
-			SelectedRotors.Items[SelectedRotors.SelectedIndex] = strTemp;
-			SelectedRotors.SelectedIndex--;
+      string strTemp = "" + SelectedRotors.Items[SelectedRotors.SelectedIndex - 1];
+      SelectedRotors.Items[SelectedRotors.SelectedIndex - 1] = SelectedRotors.SelectedItem;
+      SelectedRotors.Items[SelectedRotors.SelectedIndex] = strTemp;
+      SelectedRotors.SelectedIndex--;
 
-		}
+    }
 
-		void RotorFurther(object sender, System.EventArgs e)
-		{
-			if (SelectedRotors.SelectedIndex < 0 || SelectedRotors.SelectedIndex == SelectedRotors.Items.Count - 1)
-			{
-				return;
-			}
+    void RotorFurther(object sender, System.EventArgs e)
+    {
+      if (SelectedRotors.SelectedIndex < 0 || SelectedRotors.SelectedIndex == SelectedRotors.Items.Count - 1)
+      {
+        return;
+      }
 
-			string strTemp = "" + SelectedRotors.Items[SelectedRotors.SelectedIndex + 1];
-			SelectedRotors.Items[SelectedRotors.SelectedIndex + 1] = SelectedRotors.SelectedItem;
-			SelectedRotors.Items[SelectedRotors.SelectedIndex] = strTemp;
-			SelectedRotors.SelectedIndex++;
-		}
+      string strTemp = "" + SelectedRotors.Items[SelectedRotors.SelectedIndex + 1];
+      SelectedRotors.Items[SelectedRotors.SelectedIndex + 1] = SelectedRotors.SelectedItem;
+      SelectedRotors.Items[SelectedRotors.SelectedIndex] = strTemp;
+      SelectedRotors.SelectedIndex++;
+    }
 
-		void OkButtonClick(object sender, System.EventArgs e)
-		{
-			if (SelectedRotors.Items.Count != 3)
-			{
-				MessageBox.Show(this, "Выберите ровно три ротора!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				return;
-			}
+    void OkButtonClick(object sender, System.EventArgs e)
+    {
+      if (SelectedRotors.Items.Count != 3)
+      {
+        MessageBox.Show(this, "Выберите ровно три ротора!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        return;
+      }
 
-			ArrayList alRot = new();
-			ArrayList alRotName = new();
+      ArrayList alRot = new();
+      ArrayList alRotName = new();
       ArrayList arrayList = new();
       ArrayList alRotNotch = arrayList;
 
-			for (int j = 0; j < SelectedRotors.Items.Count; j++)
-			{
-				for (int i = 0; i < al1.Count; i++)
-				{
-					if (SelectedRotors.Items[j].ToString() == "" + al1[i])
-					{
-						alRot.Add(al2[i]);
+      for (int j = 0; j < SelectedRotors.Items.Count; j++)
+      {
+        for (int i = 0; i < al1.Count; i++)
+        {
+          if (SelectedRotors.Items[j].ToString() == "" + al1[i])
+          {
+            alRot.Add(al2[i]);
             _ = alRotName.Add(al1[i].ToString()[al1[i].ToString().LastIndexOf(" ")..].Trim());
-						alRotNotch.Add(al3[i]);
-						break;
-					}
-				}
-			}
+            alRotNotch.Add(al3[i]);
+            break;
+          }
+        }
+      }
 
-			mainForm.ChangeRotors(alRot[0].ToString(),
-											alRotName[0].ToString(),
-											alRotNotch[0].ToString().ToCharArray()[0],
-											alRot[1].ToString(),
-											alRotName[1].ToString(),
-											alRotNotch[1].ToString().ToCharArray()[0],
-											alRot[2].ToString(),
-											alRotName[2].ToString(),
-											alRotNotch[2].ToString().ToCharArray()[0]);
+      mainForm.ChangeRotors(alRot[0].ToString(),
+                      alRotName[0].ToString(),
+                      alRotNotch[0].ToString().ToCharArray()[0],
+                      alRot[1].ToString(),
+                      alRotName[1].ToString(),
+                      alRotNotch[1].ToString().ToCharArray()[0],
+                      alRot[2].ToString(),
+                      alRotName[2].ToString(),
+                      alRotNotch[2].ToString().ToCharArray()[0]);
 
-			if (ComboReflector.SelectedIndex > 0)
-			{
-				mainForm.SetReflector(refl: ComboReflector.SelectedItem.ToString()[(ComboReflector.SelectedItem.ToString().LastIndexOf("=") + 2)..].Trim());
-			}
-			Close();
-		}
-	}
+      if (ComboReflector.SelectedIndex > 0)
+      {
+        mainForm.SetReflector(refl: ComboReflector.SelectedItem.ToString()[(ComboReflector.SelectedItem.ToString().LastIndexOf("=") + 2)..].Trim());
+      }
+      Close();
+    }
+  }
 }

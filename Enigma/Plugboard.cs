@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.Collections;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace Enigma
 {
-	public class Plugboard : Form
-	{
+  public class Plugboard : Form
+  {
     private Button OkButton;
     private Button Cancel;
     private MaskedTextBox Plug1;
@@ -28,14 +28,14 @@ namespace Enigma
     private Button ClearArraysAndPlugs;
     private MainForm mainForm;
 
-		public Plugboard(MainForm mainForm)
-		{
-			InitializeComponent();
-			this.mainForm = mainForm;
-		}
+    public Plugboard(MainForm mainForm)
+    {
+      InitializeComponent();
+      this.mainForm = mainForm;
+    }
 
-		private void InitializeComponent()
-		{
+    private void InitializeComponent()
+    {
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Plugboard));
       this.OkButton = new System.Windows.Forms.Button();
       this.Cancel = new System.Windows.Forms.Button();
@@ -295,7 +295,7 @@ namespace Enigma
     }
 
 
-    private void Plug1TextChanged (object sender, EventArgs e)
+    private void Plug1TextChanged(object sender, EventArgs e)
     {
       if (Plug1.Text.Length == 2)
       {
@@ -634,10 +634,10 @@ namespace Enigma
       charsForWiring.Clear();
     }
 
-    
+
     private void Plugboard_Load(object sender, EventArgs e)
     {
-     
+
 
     }
   }
