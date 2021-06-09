@@ -327,7 +327,7 @@ namespace Enigma
             {
               txtInit.Clear();
             }
-            else
+            else if (l <= txtInit.Text.Length && l > 0)
             {
               txtInit.Text = txtInit.Text.Remove(l, 1);
               txtInit.SelectionStart = txtInit.Text.Length;

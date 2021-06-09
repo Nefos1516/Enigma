@@ -641,7 +641,4 @@ namespace Enigma
 
     }
   }
-
-	
-
 }

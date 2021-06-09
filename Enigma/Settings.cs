@@ -435,6 +435,5 @@ namespace Enigma
 			}
 			Close();
 		}
-
 	}
 }
